@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "model": "ssdlite320_mobilenet_v3_large",
+  "official_pretrained_weights": true,
+  "device": "cpu",
+  "confidence_threshold": 0.5,
+  "warmup_iterations": 3,
+  "measured_iterations": 15,
+  "detections_per_iteration": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "metrics": {
+    "processed_frame_count": 15,
+    "window_sample_count": 15,
+    "approx_throughput_fps": 23.989510059038214,
+    "inference": {
+      "mean_ms": 30.151493333930073,
+      "median_ms": 30.297491000965238,
+      "p95_ms": 32.791436002298724,
+      "sample_count": 15
+    },
+    "processing": {
+      "mean_ms": 41.684886333193084,
+      "median_ms": 41.79364400260965,
+      "p95_ms": 44.952934000320965,
+      "sample_count": 15
+    }
+  },
+  "environment": {
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.12.1+cpu",
+    "torchvision": "0.27.1+cpu",
+    "cuda_available": false
+  }
+}

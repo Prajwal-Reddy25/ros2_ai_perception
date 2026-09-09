@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "model": "fasterrcnn_mobilenet_v3_large_320_fpn",
+  "official_pretrained_weights": true,
+  "device": "cpu",
+  "confidence_threshold": 0.5,
+  "warmup_iterations": 3,
+  "measured_iterations": 15,
+  "detections_per_iteration": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "metrics": {
+    "processed_frame_count": 15,
+    "window_sample_count": 15,
+    "approx_throughput_fps": 16.35436107988428,
+    "inference": {
+      "mean_ms": 53.03398613371731,
+      "median_ms": 52.928393000911456,
+      "p95_ms": 58.47210200226982,
+      "sample_count": 15
+    },
+    "processing": {
+      "mean_ms": 61.14576993350056,
+      "median_ms": 61.095920002117055,
+      "p95_ms": 66.39726600042195,
+      "sample_count": 15
+    }
+  },
+  "environment": {
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.12.1+cpu",
+    "torchvision": "0.27.1+cpu",
+    "cuda_available": false
+  }
+}
