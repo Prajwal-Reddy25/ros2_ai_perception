@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python quality and unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install system Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y python3-opencv python3-venv
+      - name: Create system-compatible environment
+        run: python3 -m venv --system-site-packages .venv
+      - name: Install CPU ML and development dependencies
+        run: |
+          .venv/bin/python -m pip install --upgrade pip 'setuptools>=68,<69' wheel
+          .venv/bin/python -m pip install \
+            --index-url https://download.pytorch.org/whl/cpu \
+            'torch>=2.12,<2.13' 'torchvision>=0.27,<0.28'
+          .venv/bin/python -m pip install 'pytest>=8,<9' 'pytest-cov>=5,<7' 'ruff>=0.9,<1'
+      - run: .venv/bin/ruff format --check .
+      - run: .venv/bin/ruff check .
+      - run: .venv/bin/pytest -q -m 'not integration'
+
+  ros-jazzy:
+    name: ROS 2 Jazzy build and package tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ros-tooling/setup-ros@0.7.9
+        with:
+          required-ros-distributions: jazzy
+      - name: Install ROS dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            python3-venv python3-opencv \
+            ros-jazzy-cv-bridge ros-jazzy-diagnostic-msgs \
+            ros-jazzy-vision-msgs ros-jazzy-ros2launch
+      - name: Create ROS-compatible environment
+        run: |
+          python3 -m venv --system-site-packages .venv
+          .venv/bin/python -m pip install 'setuptools>=68,<69' 'pytest>=8,<9'
+      - name: Build
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          .venv/bin/python -m colcon build --symlink-install
+      - name: Test
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          source install/setup.bash
+          .venv/bin/python -m colcon test --event-handlers console_direct+
+          .venv/bin/python -m colcon test-result --verbose
