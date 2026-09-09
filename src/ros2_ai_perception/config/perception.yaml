@@ -1,0 +1,19 @@
+media_publisher:
+  ros__parameters:
+    frame_rate: 1.0
+    loop: true
+    output_topic: /perception/image_raw
+    frame_id: camera
+
+perception_node:
+  ros__parameters:
+    model: ssdlite320_mobilenet_v3_large
+    device: cpu
+    confidence_threshold: 0.50
+    input_image_topic: /perception/image_raw
+    detections_topic: /perception/detections
+    annotated_image_topic: /perception/annotated
+    diagnostics_topic: /perception/diagnostics
+    metrics_interval_frames: 5
+    metrics_window_size: 100
+

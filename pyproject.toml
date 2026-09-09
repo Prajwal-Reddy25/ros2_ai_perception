@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68,<69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+  "integration: tests requiring ROS 2 or downloaded model weights",
+  "smoke: real model inference smoke tests",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+exclude = ["build", "install", "log", ".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

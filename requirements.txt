@@ -1,0 +1,3 @@
+# Install torch/torchvision from the desired official PyTorch wheel index first.
+torch>=2.12,<2.13
+torchvision>=0.27,<0.28

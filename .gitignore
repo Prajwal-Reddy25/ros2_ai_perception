@@ -1,0 +1,31 @@
+.venv/
+build/
+install/
+log/
+.colcon/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.coverage
+htmlcov/
+.idea/
+.vscode/
+.DS_Store
+
+# Downloaded models, datasets, and user media
+*.pt
+*.pth
+*.onnx
+datasets/
+media/downloads/
+results/*
+!results/README.md
+!results/measured_cpu.json
+!results/annotated_demo.jpg
+!results/benchmark_ssdlite_cpu.json
+!results/benchmark_fasterrcnn_cpu.json
+
+# Local agent state is never public
+.codex/
