@@ -1,5 +1,7 @@
 # ROS 2 AI Perception
 
+[![CI](https://github.com/Prajwal-Reddy25/ros2_ai_perception/actions/workflows/ci.yml/badge.svg)](https://github.com/Prajwal-Reddy25/ros2_ai_perception/actions/workflows/ci.yml)
+
 A CPU-first ROS 2 Jazzy object-detection system built with PyTorch,
 torchvision, OpenCV, `vision_msgs`, and measurable runtime diagnostics. It
 publishes prerecorded media, performs COCO-pretrained detection, emits native
@@ -246,7 +248,7 @@ are supported but not reported.
 - Standalone mode writes one annotated frame; ROS mode provides streaming.
 - AP50 evaluation is suitable for small manifests, not a replacement for full official COCO evaluation.
 - End-to-end ROS latency assumes publisher and subscriber clocks share a time domain; synchronize clocks across hosts.
-- CUDA, physical-camera input, RViz/rqt GUI display, and remote GitHub Actions remain unverified here.
+- CUDA, physical-camera input, and hardware deployment remain unverified.
 - A first run needs network access for sample media and official model weights.
 
 ## Testing
@@ -259,7 +261,7 @@ are supported but not reported.
 
 See [local validation evidence](docs/validation.md). CI mirrors formatting,
 unit tests, Jazzy build, and package tests on Ubuntu 24.04. It intentionally
-does not download model weights. No remote CI result is claimed.
+does not download model weights. Public GitHub Actions validate Python quality/unit tests and ROS 2 Jazzy build/package tests.
 
 ## Troubleshooting
 
