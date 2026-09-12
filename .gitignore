@@ -5,10 +5,15 @@ log/
 .colcon/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
 __pycache__/
 *.py[cod]
 *.egg-info/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
 .idea/
 .vscode/
@@ -18,14 +23,20 @@ htmlcov/
 *.pt
 *.pth
 *.onnx
+*.ckpt
+*.safetensors
+*.engine
+*.trt
 datasets/
 media/downloads/
+*.db3
+*.mcap
+rosbag2_*/
 results/*
 !results/README.md
-!results/measured_cpu.json
 !results/annotated_demo.jpg
 !results/benchmark_ssdlite_cpu.json
 !results/benchmark_fasterrcnn_cpu.json
 
-# Local agent state is never public
+# Local tooling state
 .codex/

@@ -20,7 +20,7 @@ training step is required.
 - Primary SSDLite and optional Faster R-CNN MobileNet 320 models from torchvision
 - Strict CPU/CUDA/auto device policy with clear unavailable-CUDA errors
 - Standalone inference, reproducible benchmark, AP50 evaluation interface, and ROS diagnostics
-- 31 dependency-light unit tests, a real-weight CPU smoke test, and package-native ROS tests
+- 31 local unit tests, a real-weight CPU smoke test, and package-native ROS tests
 - Small, checksum-verified CC0 demo image; datasets and model binaries remain outside Git
 
 ## Technology stack
@@ -158,6 +158,11 @@ standard diagnostics.
 | `metrics_interval_frames` | `10` | Diagnostic publication interval |
 | `metrics_window_size` | `500` | Bounded timing sample count |
 
+The installed [`perception.yaml`](src/ros2_ai_perception/config/perception.yaml)
+is an example configuration showing valid parameters for both nodes. The demo
+launch file continues to use its working defaults and launch arguments; it does
+not load this example automatically.
+
 Image subscription and perception-stream publishers use ROS sensor-data QoS:
 best effort, volatile durability, and a small queue. This favors fresh frames
 over retransmission during overload. Diagnostics use reliable QoS with depth 10
@@ -198,19 +203,21 @@ ros2 run ros2_ai_perception perception_benchmark media/downloads/demo_dog.jpg \
 Warm-up samples are excluded. Model inference timing surrounds only the model
 call; processing adds tensor conversion, device transfer, synchronization, and
 filtering. Approximate FPS is `1000 / mean processing milliseconds`; it is not
-camera rate or ROS end-to-end throughput.
+camera rate or ROS end-to-end throughput. The benchmark decodes one frame and
+repeats that same decoded frame for every warm-up and measured iteration.
 
 ## Measured results
 
 Measured locally on 2026-09-09 using an AMD Ryzen 9 8940HX (16 cores / 32
 threads), Ubuntu 24.04.4, Python 3.12.3, PyTorch 2.12.1+cpu, torchvision
 0.27.1+cpu, and the 1200×1412 CC0 image. Each benchmark used 3 warm-ups and 15
-measured iterations at confidence 0.5.
+measured iterations at confidence 0.5. This short 15-iteration run is
+illustrative rather than a comprehensive performance study.
 
-| Model | Mean inference | Median | p95 | Mean processing | Approx. FPS | Detected |
-|---|---:|---:|---:|---:|---:|---|
-| SSDLite320 MobileNet V3 Large | 30.15 ms | 30.30 ms | 32.79 ms | 41.68 ms | 23.99 | dog, 0.991 |
-| Faster R-CNN MobileNet V3 320 FPN | 53.03 ms | 52.93 ms | 58.47 ms | 61.15 ms | 16.35 | dog |
+| Model | Mean inference | Median | Inference p95 | Mean processing | Approx. FPS | Detections / iteration |
+|---|---:|---:|---:|---:|---:|---:|
+| SSDLite320 MobileNet V3 Large | 30.15 ms | 30.30 ms | 32.79 ms | 41.68 ms | 23.99 | 1 |
+| Faster R-CNN MobileNet V3 320 FPN | 53.03 ms | 52.93 ms | 58.47 ms | 61.15 ms | 16.35 | 1 |
 
 Raw reports: [SSDLite](results/benchmark_ssdlite_cpu.json) and
 [Faster R-CNN](results/benchmark_fasterrcnn_cpu.json). On this one workload,
@@ -266,5 +273,12 @@ does not download model weights. No remote CI result is claimed.
 ## License
 
 Repository source is MIT licensed. Sample-media provenance and its independent
-CC0 terms are documented in [media/README.md](media/README.md). Model weights
-are downloaded from torchvision at runtime and are not redistributed here.
+CC0 terms are documented in [media/README.md](media/README.md). The official
+torchvision model pages document the
+[SSDLite320 MobileNet V3 Large](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html)
+and
+[Faster R-CNN MobileNet V3 320 FPN](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.fasterrcnn_mobilenet_v3_large_320_fpn.html)
+builders and weights used here. Model weights are downloaded at runtime and are
+not redistributed here. Review the applicable upstream model, weight, and
+training-data terms for your use; this repository's MIT license does not grant
+rights to third-party artifacts.

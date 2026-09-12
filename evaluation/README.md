@@ -31,5 +31,7 @@ perception_evaluate evaluation/manifest.json \
 The implementation uses score-ordered greedy one-to-one matching at IoU 0.50
 and interpolated precision/recall integration. This is intentionally compact
 for small licensed datasets; use the official COCO API for publication-grade
-COCO metrics over COCO-format datasets.
+COCO metrics over COCO-format datasets. The compact evaluator scores only
+classes present in the ground-truth manifest. Predictions belonging only to
+classes absent from that manifest are outside its scoring scope.
 

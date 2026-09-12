@@ -21,7 +21,7 @@ torchvision 0.27.1+cpu, OpenCV 4.6.0, and NumPy 1.26.4.
 The development graph run received all three outputs from independent ROS CLI
 subscriptions:
 
-- `Detection2DArray`: one `dog`, score 0.9912348985671997, width 1076.035 px, height 1239.130 px
+- `Detection2DArray`: one `dog`, score 0.991, width 1076.035 px, height 1239.130 px
 - annotated `Image` header: original `camera` frame ID and timestamp preserved
 - `DiagnosticArray`: frame count, approximate FPS, and mean inference, processing, and end-to-end latency keys
 
@@ -30,8 +30,8 @@ subscriptions:
 Both models used identical input, threshold 0.5, 3 excluded warm-ups, and 15
 measured CPU iterations. SSDLite measured 30.15 ms mean inference and 41.68 ms
 mean processing. Faster R-CNN MobileNet V3 320 FPN measured 53.03 ms mean
-inference and 61.15 ms mean processing. Full environment data and distributions
-are retained under `results/`.
+inference and 61.15 ms mean processing. Runtime metadata and benchmark summary
+statistics are retained under `results/`.
 
 CUDA was not tested. The installed NVIDIA GPU was visible through `nvidia-smi`,
 but the validated PyTorch wheel is CPU-only. No training or dataset accuracy
