@@ -34,15 +34,15 @@ Ubuntu 24.04, ROS 2 Jazzy, Python 3.12, PyTorch, torchvision, OpenCV, NumPy,
 
 ```mermaid
 flowchart LR
-    A[Image / video / image directory] --> B[media_publisher]
-    B -->|sensor_msgs/Image| C[perception_node]
-    C --> D[Torchvision detector]
-    D --> E[confidence filtering]
-    E -->|vision_msgs/Detection2DArray| F[/perception/detections]
-    E --> G[OpenCV annotation]
-    G -->|sensor_msgs/Image| H[/perception/annotated]
-    C --> I[bounded timing window]
-    I -->|diagnostic_msgs/DiagnosticArray| J[/perception/diagnostics]
+    A["Image / video / image directory"] --> B["media_publisher"]
+    B -->|"sensor_msgs/Image"| C["perception_node"]
+    C --> D["torchvision detector"]
+    D --> E["confidence filtering"]
+    E -->|"vision_msgs/Detection2DArray"| F["/perception/detections"]
+    E --> G["OpenCV annotation"]
+    G -->|"sensor_msgs/Image"| H["/perception/annotated"]
+    C --> I["bounded timing window"]
+    I -->|"diagnostic_msgs/DiagnosticArray"| J["/perception/diagnostics"]
 ```
 
 The detector pipeline is shared by the ROS node, standalone inference,
